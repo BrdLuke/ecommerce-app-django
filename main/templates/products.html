@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+{% include 'resources-tailwind-css.html' %}
+
+{% block content %}
+
+<head>
+    <title>RapStarStyle - Our Products</title>
+</head>
+
+<body class="text-mono bg-white">
+    {% include 'navbar.html' %}
+    <h1 class="mt-16 mb-20 underline text-center font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">Our Products</h1>
+    {% if all_products %}
+        {% for category, products in all_products.items %}
+            <h1 class="py-2 mb-10 font-extrabold text-center bg-green-100 w-3/4 mx-auto uppercase">{{ category }}</h1>
+            <div class="flex flex-wrap my-8 justify-center items-center text-center">
+                {% for product in products %}
+                    <div class="my-2 px-2 w-1/2 md:w-1/3 lg:w-1/8">
+                        <p class="uppercase font-bold"> {{ product.product_name }} </p>
+                        <img src="{{ product.product_image.url }}" class="mt-4 mb-2 h-auto w-48 rounded-lg items-center mx-auto justify-center blcok" alt="Not found">
+                        <strong>$ {{ product.product_price }}</strong>
+                        <br>
+                        <a href="{% url 'product_details' product.product_name %}">
+                            <button type="button" class="mt-2 mb-20 px-10 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> Details & Buy </button>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+    {% for message in messages %}
+    <div role="alert" class="w-80 m-auto mt-5 top-0 left-0 m-auto mt-5">
+        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2 text-center">
+            Holy Smokes!
+        </div>
+        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700 text-center">
+            <p>{{ message }}</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% include 'footer.html' %}
+</body>
+{% endblock %}
